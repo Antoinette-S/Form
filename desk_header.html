@@ -1,0 +1,376 @@
+{% if desk.apps.get_satisfaction.enabled %}
+{{ gsinit }}
+{% endif %}
+
+{% if favicon.size > 0 %}
+<link rel="SHORTCUT ICON" type='image/ico' href='{{favicon}}' />
+<link rel="icon" type='image/png' href='{{favicon}}' />
+{% else %}
+<link rel="icon" type='image/vnd.microsoft.icon' href='{{ "/favicon.ico" | portal_image_url: image_asset_host }}' />
+<link rel="icon" type='image/png' href='{{ "/favicon.png" | portal_image_url: image_asset_host }}' />
+{% endif %}
+<title>
+  {{ site.company_name }} |
+  {% case page %}
+  {% when 'page_index' %}
+    {{desk.system.snippets.portal_title}}
+  {% when 'page_search_result' %}
+    {{desk.system.snippets.search_results}}
+  {% when 'page_topic' %}
+    {{ topic.name | clip:40 }}
+  {% when 'page_article' %}
+    {{ article.subject_plain | clip:40 }}
+  {% when 'question_new' or 'question_pre_create' %}
+    {{desk.system.snippets.post_public_question}}
+  {% when 'question_show' %}
+    {{ question.subject_plain | clip:40 }}
+  {% when 'email_new' or 'email_pre_create' %}
+    {{desk.system.snippets.email_us}}
+  {% when 'email_submitted' %}
+    {{desk.system.snippets.email_sent}}
+  {% when 'chat_new' or 'chat_pre_create' %}
+    {{desk.system.snippets.live_chat}}
+  {% when 'myportal_index' %}
+    {{desk.system.snippets.my_cases}}
+  {% when 'myportal_show' %}
+    {{desk.page.content.case.subject | clip:40 }}
+  {% when 'login' %}
+    {{desk.system.snippets.login_title}}
+  {% when 'registration' %}
+    {{desk.system.snippets.registration_title}}
+  {% when 'forgot_password' %}
+    {{desk.system.snippets.password_reset_title}}
+  {% when 'myaccount' %}
+    {{desk.system.snippets.account_title}}
+  {% when 'authentication_verification' %}
+    {{desk.system.snippets.auth_verification_title}}
+  {% when 'customer_feedback' %}
+    {{desk.system.snippets.customer_feedback_title}}
+  {% when 'customer_feedback_completed' %}
+    {{desk.system.snippets.customer_feedback_title}}
+  {% endcase %}
+</title>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% if page == 'page_article' %}
+<meta property="og:title" content="{{ article.subject_plain | clip:40 }}"/>
+<meta property="og:type" content="article"/>
+<meta property="og:site_name" content="{{ site.company_name }}"/>
+<meta property="og:description" content="{{ article.body_text | clip: 120}}"/>
+{% endif %}
+
+{% if page == 'page_topic' %}
+  {% if site.questions_enabled_config and topic.question_count > 0 and topic.allow_questions %}
+  <link rel="alternate" type="application/rss+xml" title="{{ topic.name | clip:40 }} - Questions (RSS 2.0)" href="{{ topic.public_url }}/questions.rss" />
+  {% endif %}
+  {% if topic.article_count > 0 %}
+  <link rel="alternate" type="application/rss+xml" title="{{ topic.name | clip:40 }} - Articles (RSS 2.0)" href="{{ topic.public_url }}/articles.rss" />
+  {% endif %}
+{% endif %}
+
+ <!-- ///////////////////////////////////////////////////////////////
+                  **** STYLE SHEETS FONTS AND MORE ****
+    /////////////////////////////////////////////////////////////// -->
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="//desk-customers.s3.amazonaws.com/support/14/css/dependencies.min.css" rel="stylesheet">
+<link href="//desk-customers.s3.amazonaws.com/support/14/css/screen.min.css" rel="stylesheet">
+<link href="//desk-customers.s3.amazonaws.com/support/14/css/style.css" rel="stylesheet">
+<link href="//desk-customers.s3.amazonaws.com/support/14/css/mobile.css" rel="stylesheet">
+ <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+  <!-- TypeKit -->
+
+  <script src="//use.typekit.net/jgm1qhs.js"></script>
+  <script>try{Typekit.load();}catch(e){}</script>
+
+<!-- ========================================
+  Header
+========================================= -->
+
+<header role="banner">
+  <nav class="navbar navbar-default navbar-static-top">
+    <div class="container">       
+      <ul class="nav navbar-nav navbar-left">
+        <li class="first">
+          <a href="https://mail.google.com/a/justsalad.com" style="color:white">Email Portal</a>
+        </li>
+        <li>
+          <a href="https://www.justsaladfranchise.com" style="color:white">Purchase Order</a>
+        </li>
+        <li>
+          <a href="http://justsalad.alohaenterprise.com:8080/login.do" style="color:white">Aloha Insight</a>
+        </li>
+        <li>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="color:white">Delivery <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="https://www.seamless.com/vendor" style="color:white">Order Just Salad</a></li>
+            <li><a href="https://www.seamless.com/vendor" style="color:white">Seamless</a></li>
+            <li><a href="https://www.seamless.com/vendor" style="color:white">Grub Hub</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="color:white">Human Resources <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="http://goo.gl/forms/5Z00cIUbmE" style="color:white">Employee Request Form</a></li>
+            <li><a href="http://goo.gl/forms/oDf9OSqu9V" style="color:white">Employee Sharing Form</a></li>
+            <li><a href="http://www.justsalad.com/web/APPD.pdf" style="color:white">Professional Development Plan</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://justsalad.wufoo.com/forms/timeoff-request-form/" style="color:white">Vacation Request</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  
+  <div class="jumbotron">
+    <div class="container">
+       <a class="top-logo" href="portal.justsalad.com">
+        <img src="http://bardworx.com/desk/JS_logo_flat_v2.png" alt="jsit.com" />
+      </a>   
+    </div>
+  </div>
+
+
+    <!-- BREADCRUMBS -->
+    {% if page  != "page_index" %}
+        <div id="breadcrumbs">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                  <ol class="breadcrumb">
+                    {% if page  == "page_index" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a></li>
+                    {% elsif page == "page_article" %}
+                      {% if article %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        <li class="crumb"><a href="{{ topic.public_articles_url }}" title="{{ topic.name }}">{{ topic.name }}</a> </li>
+                        <li class="active crumb" title="{{ article.subject_plain }}">{{ article.subject_plain }}</li>
+                      {% else %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        <li class="crumb active">{{system.snippets.article_translation_missing}}</li>
+                      {% endif %}
+                    {% elsif page == "page_topic" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        {% if topic %}
+                        <li class="crumb active">{{ topic.name }}</li>
+                        {% endif %}
+                    {% elsif page == "page_search_result" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        <li class="crumb">{{system.snippets.search}} </li>
+                        <li class="active crumb" title="{{ search_term }}">{{ search_term }}</li>
+                    {% elsif page == "question_show" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        <li class="crumb"><a href="{{ question.topic.public_questions_url }}" title="{{ question.topic.name }}">{{ question.topic.name  | clip:30 }}</a> </li>
+                        <li class="active crumb" title="{{ question.subject }}">{{ question.subject | clip:30 }}</li>
+                    {% elsif page == "question_new" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        <li class="active crumb" title="{{ article.subject_plain }}">{{system.snippets.post_public_question}}</li>
+                    {% elsif page == "question_pre_create" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        <li class="crumb"><a href='{{desk.system.links.question}}'>{{system.snippets.post_public_question}}</a> </li>
+                        <li class="active crumb">{{system.snippets.post_public_question}}</li>
+                    {% elsif page == "email_new" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        <li class="active crumb" title="{{ article.subject_plain }}">{{system.snippets.email_us}}</li>
+                    {% elsif page == "email_pre_create" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> &rsaquo; {{system.snippets.email_us}}</li>
+                    {% elsif page == "email_submitted" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        <li class="active crumb">{{system.snippets.email_us}}</li>
+                    {% elsif page == "chat_new" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        <li class="active crumb" title="{{system.snippets.live_chat}}">{{system.snippets.live_chat}}</li>
+                    {% elsif page == "chat_pre_create" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        <li class="active crumb">{{system.snippets.live_chat}}</li>
+                    {% elsif page == "myportal_index" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        <li class="active crumb">{{desk.system.snippets.my_cases}}</li>
+                    {% elsif page == "myportal_show" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        {% if desk.customer.can_access_company_tickets? %}
+                        <li class="crumb"><a href='{{ desk.system.links.myportal }}'>{{ desk.page.content.case.customer.name }}</a></li>
+                        {% endif %}
+                        <li class="crumb"><a href='{{ desk.system.links.myportal }}'>{{desk.system.snippets.my_cases}}</a> </li>
+                        <li class="active crumb">{{desk.page.content.case.subject | clip:30 }}</li>
+                    {% elsif page == "login" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        <li class="crumb active">{{desk.system.snippets.login_title}}</li>
+                    {% elsif page == "registration" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        <li class="crumb"><a href='{{ site.authentication_login_url }}'>{{desk.system.snippets.login_title}}</a> </li>
+                        <li class="crumb active">{{desk.system.snippets.registration_title}}</li>
+                    {% elsif page == "forgot_password" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        <li class="crumb"><a href='{{desk.system.links.login}}'>{{desk.system.snippets.login_title}}</a> </li>
+                        <li class="crumb active">{{desk.system.snippets.password_reset_title}}</li>
+                    {% elsif page == "myaccount" %}
+                        <li class="crumb"><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> </li>
+                        <li class="active crumb">{{desk.system.snippets.account_title}}</li>
+                    {% elsif page == "authentication_verification" %}
+                        <li><a href='{{desk.system.links.home}}'>{{system.snippets.home}}</a> &rsaquo; {{desk.system.snippets.auth_verification_title}}</li>
+                    {% endif %}
+                  </ol>
+              </div>
+            </div>
+          </div>
+        </div><!-- #breadcrumbs -->
+    {% endif %}
+    <!-- END BREADCRUMBS -->    
+
+ <!-- ///////////////////////////////////////////////////////////////
+                  **** MODIFIED STYLE SHEETS ****
+    /////////////////////////////////////////////////////////////// -->  
+<style>
+.jumbotron {
+  background-image: url(http://bardworx.com/desk/Jumbotron_8.jpg);  
+  background-position: absolute;
+  background-size: cover;
+  min-height: 500px;
+}
+.jumbotron::after {
+  background-position: absolute;
+  background-size: cover;
+  opactiy: 0.75;
+}
+  
+.jumbotron, h1, p {
+  text-align: center;
+}
+.jumbotron .container {
+  padding-top: 50px
+}
+.top-logo {
+  margin: auto;
+  position: absolute;
+  top: 150px; 
+  left: 0; 
+  bottom: 0; 
+  right: 0;
+}
+.dropdown-menu{
+  background-color: rgba(256,256,256, 0.0);
+  color: white;
+}
+.open > .dropdown-toggle {
+  background-color: rgba(256,256,256, 0.0);
+  color: white;
+}
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover{
+  background-color: rgba(256,256,256, 0.0);
+  color: white;
+}
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { 
+  background-color: rgba(256,256,256, 0.3);
+}  
+<!-- INDEX CSS -->
+.caption, h3, p {
+  text-align: center;
+}
+.caption, p {
+  color: grey;
+}
+.thumbnail {
+  opacity: .75;
+}
+.thumbnail:hover {
+  opacity: 1;
+  border-top-width: 3px;
+  border-top-style: solid;
+  border-top-color: green;
+}
+.fa {
+  color: black;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 60px;
+}
+.fa-paper-plane-o {
+  color: #0000ff;
+}
+.fa-file-text {
+  color:#cc8600
+}
+.fa-line-chart {
+  color:#339900
+}
+.fa-car {
+  color:#cc0000
+}
+.fa-users {
+  color:#000099
+}
+.fa-clipboard {
+  color:#00ccff
+}
+.intranet {
+  padding-top: 50px;
+}
+.thumbnail {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+  
+<!-- Rate Article CSS -->
+#rate_article a {
+  text-decoration: none;
+}  
+
+#rate_article div {
+  display: inline-block;
+  float: none;
+  margin: 0;
+  height: auto;
+  font-style: normal;
+  width: auto;
+}
+
+#rate_article span {
+display: none;
+}
+  
+#rate_article_container {
+  display: inline-block;
+}
+  
+.rate-prompt {
+  font-weight: bold;
+}
+  
+#rate_article div:not(.rate-link-down):after {
+  content: " / ";
+}
+  
+#rate_article_container a {
+  background: none;
+  border: none;
+  text-indent: 0;
+  border-radius: 0;
+  height: auto;
+  width: auto;
+  float: none;
+  margin: 0;
+  font-style: normal;
+}
+
+</style>
+  
+  
+
+   <!-- ///////////////////////////////////////////////////////////////
+                  **** CUSTOMIZED JS ****
+    /////////////////////////////////////////////////////////////// -->  
+  
+

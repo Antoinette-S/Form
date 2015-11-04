@@ -1,24 +1,33 @@
 $(document).ready(function() {
     $(window).load(function () {
 
-        var accessToken = "?access_token=68ec5835afe6461a1c22425985a4864ee829b3a0";
+        var accessToken = "?access_token=eb91b7111b7b1844b089f0a375218b4af17e14f0";
         var issuesURL = "https://api.github.com/repos/JustSaladLLC/order-justsalad/issues" + accessToken;
         $( '#result' ).html( "" );
         var html = "<h2>OJS Reported Issues</h2>";
+
 
         $.ajax( {
             url : issuesURL,
             dataType : "jsonp",
             success : function ( returndata ) {
                 $.each( returndata.data, function ( i, item ) {
+                    var string_labels = JSON.stringify(this.labels); //turn labels array into string
+                    var jsonData = JSON.parse(string_labels);        //turn string into javascript object
+                    for (var i = 0; i < jsonData.length; i++) {
+                        var counter = jsonData[i];
+                        var labels = (counter.name);
+                    }
                     html += '<li>' +
                     '<h4>' + this.title + '</h4>' +
                     '<ul>' +
-                    '<li>' + 'Issue Number: ' + this.number + '</li>' +
-                    '<li>' + 'Status: ' + this.state + '</li>' +
-                    '<li>' + 'Description: ' + this.body + '</li>' +
+                    '<li>' + '<b>Issue Number: </b>' + this.number + '</li>' +
+                    '<li>' + '<b>Status: </b>' + this.state + '</li>' +
+                    '<li>' + '<b>Tags: </b>' + labels + '</li>' +
+                    '<li>' + '<b>Description: </b>' + this.body + '</li>' +
                     '</ul>' +
                     '</li>';
+
                 } );
                 $( '#result' ).append( html );
             }, // close success handler
@@ -54,7 +63,7 @@ $(document).ready(function() {
             var title = $('input.title').val();
             var user = $('input.email').val();
             var body = $('textarea.body').val() + ('<br />') + user;
-            var accessToken = "?access_token=68ec5835afe6461a1c22425985a4864ee829b3a0";
+            var accessToken = "?access_token=eb91b7111b7b1844b089f0a375218b4af17e14f0";
             var issuesURL = "https://api.github.com/repos/JustSaladLLC/order-justsalad/issues" + accessToken;
 
             $.ajax({

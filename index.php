@@ -2,12 +2,12 @@
 <html>
 <head>
     <style>
-        #wrapper{
+        #reported{
             margin-left: 120px;
             overflow: auto;
             font-family: "proxima-nova",sans-serif;
         }
-        #wrapper p{
+        #reported p{
             color: #27AE60;
             font-size: 20px;
             font-weight: bold;
@@ -68,10 +68,10 @@
     <script src="test.js"></script>
 </head>
 <body>
-<div class="issue" id="wrapper">
+<div class="issue" id="reported">
 <div class="issues" id="result" name="issuesresult">
 </div>
-<p>Don't see your issues here? Click to start your own! &nbsp; <input type="button" class="start" value="Start" /></p>
+<p>Don't see your issue here? Click to start your own! &nbsp; <input type="button" class="start" value="Start" /></p>
 </div>
 </body>
 </html>

@@ -3,10 +3,37 @@ $(document).ready(function() {
 
         var accessToken = "?access_token=eb91b7111b7b1844b089f0a375218b4af17e14f0";
         var issuesURL = "https://api.github.com/repos/JustSaladLLC/order-justsalad/issues" + accessToken;
+        var commentsURL = "https://api.github.com/repos/JustSaladLLC/order-justsalad/issues/comments" + accessToken;
         $( '#result' ).html( "" );
         var html = "<h2>OJS Reported Issues</h2>";
 
 
+
+        var url = function () {
+            $.ajax({
+                url: issuesURL,
+                dataType: "jsonp",
+                success: function (data) {
+                    $.each( data.data, function ( i, item ) {
+
+                    } );
+                    var newdata = data.data;
+                    for (var i = 0; i < newdata.length; i++) {
+                        var stuff = newdata[i];
+                        var comments_url = (stuff.comments_url);
+                      // url += comments_url + '\n';
+                    }
+                    return this;
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+        }
+        console.log(url);
+       // commentURL();
+
+//TODO: milestone and comments plus input comment form
         $.ajax( {
             url : issuesURL,
             dataType : "jsonp",
@@ -25,18 +52,47 @@ $(document).ready(function() {
                     '<li>' + '<b>Status: </b>' + this.state + '</li>' +
                     '<li>' + '<b>Tags: </b>' + labels + '</li>' +
                     '<li>' + '<b>Description: </b>' + this.body + '</li>' +
+                    '<li>' + '<b>Comments: </b>' + this.comments + '</li>' +
+                    '<div class="comments"></div>'+
                     '</ul>' +
                     '</li>';
-
+                   // console.log(this.number);
                 } );
                 $( '#result' ).append( html );
+
             }, // close success handler
             error: function(returndata) {
                 console.log(returndata);
             },
         });
-    });
 
+
+        var body = $('textarea.comment').val();
+        var html2 = "<li>";
+        $.ajax( {
+        url : url + accessToken,
+        dataType : "jsonp",
+            success : function ( returndata ) {
+            $.each( returndata.data, function ( i, item ) {
+                //var string_comments = JSON.stringify(); //turn labels array into string
+                 html2 += '<ul>' +
+                '<li>' + '<b>Comments: </b>' + this.body + '</li>' +
+                '<li>' + '<textarea class="comment" rows="4" cols="50" placeholder="Comments? Leave them here! "></textarea>'  + '</li>' +
+                '</ul>' +
+                '</li>';
+
+            } );
+            $( '.comments' ).append( html2 );
+
+        }, // close success handler
+        error: function(returndata) {
+            console.log(returndata);
+        }
+    });
+});
+    //data: JSON.stringify({
+      //  'body': body
+   //}),
 
 
         vex.defaultOptions.className = 'vex-theme-flat-attack';                       //styling Vex Frame

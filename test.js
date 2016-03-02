@@ -1,10 +1,10 @@
 $(document).ready(function() {
     $(window).load(function () {
 
-        var accessToken = "?access_token=eb91b7111b7b1844b089f0a375218b4af17e14f0";
-        var issuesURL = "https://api.github.com/repos/JustSaladLLC/order-justsalad/issues" + accessToken;
+        var accessToken = "?access_token=<token>";
+        var issuesURL = "https://api.github.com/repos/<user>/<repo>/issues" + accessToken;
         $( '#result' ).html( "" );
-        var html = "<h2>OJS Reported Issues</h2>";
+        var html = "<h2>Reported Issues</h2>";
 
         function get_URL(url) {
             return $.ajax({
@@ -18,30 +18,34 @@ $(document).ready(function() {
         var html2 = "<li>";
 
         get_URL().done(function(data){
-           // $.each( data.data, function ( i, item ) {
-                var issues_url = this.url;
+            $.each( data.data, function ( i, item ) {
                 var comments = this.comments;
-               // console.log(comments);
+                var login = this.user.login;
+                var id = this.number;
+
+                //console.log(issues_url);
                 $.ajax({
                     url : this.comments_url + accessToken,
                     dataType : "jsonp",
                     success : function ( returndata ) {
                         if (comments > 0) {
-                            if (this.issues_url = issues_url) {
                                 $.each(returndata.data, function (i, item) {
-                                    html2 += '<li><b>User </b>' + this.user.login + ' commented:' +
-                                    '<li>' + this.body + '</li>' ;
+                                    for (var i = 0; i < $(returndata).length; i++) {
+                                        var url = this.issue_url;
+                                        var lastTwo = url.substr(url.length - 2);
+                                        console.log(lastTwo);
+                                        html2 += '<li><b>User </b>' + login + ' commented:' +
+                                            '<li>' + this.body + '</li>';
+                                    }
                                 });
-                            }
-
                         }
-                        $('.comments').append(html2);
+                        $('#'+id).append(html2);
                     }, // close success handler
                 });
-            //});
-            html2 += '<li>' + '<textarea class="comment" rows="4" cols="50" placeholder="Comments? Leave them here! "></textarea>' + '</li>' +
-            '</li>';
 
+            });
+            html2 += '<li>' + '<textarea class="comment" rows="4" cols="50" placeholder="Comments? Leave them here! "></textarea>' + '</li>' +
+                '</li>';
         });
 
 //TODO: milestone and comments plus input comment form
@@ -64,7 +68,7 @@ $(document).ready(function() {
                     '<li>' + '<b>Tags: </b>' + labels + '</li>' +
                     '<li>' + '<b>Description: </b>' + this.body + '</li>' +
                     '<li>' + '<b>Comments: </b>' + this.comments + '</li>' +
-                    '<div class="comments"></div>'+
+                    '<div class="comments" id='+ this.number +'></div>'+
                     '</ul>' +
                     '</li>';
                 } );
@@ -108,8 +112,8 @@ $(document).ready(function() {
             var title = $('input.title').val();
             var user = $('input.email').val();
             var body = $('textarea.body').val() + ('<br />') + user;
-            var accessToken = "?access_token=eb91b7111b7b1844b089f0a375218b4af17e14f0";
-            var issuesURL = "https://api.github.com/repos/JustSaladLLC/order-justsalad/issues" + accessToken;
+            var accessToken = "?access_token=<token>";
+            var issuesURL = "https://api.github.com/repos/<user>/<repo>/issues" + accessToken;
 
             $.ajax({
                 type: "POST",

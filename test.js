@@ -14,41 +14,6 @@ $(document).ready(function() {
             });
         }
 
-        var body = $('textarea.comment').val();
-        var html2 = "<li>";
-
-        get_URL().done(function(data){
-            $.each( data.data, function ( i, item ) {
-                var comments = this.comments;
-                var login = this.user.login;
-                var id = this.number;
-
-                //console.log(issues_url);
-                $.ajax({
-                    url : this.comments_url + accessToken,
-                    dataType : "jsonp",
-                    success : function ( returndata ) {
-                        if (comments > 0) {
-                                $.each(returndata.data, function (i, item) {
-                                    for (var i = 0; i < $(returndata).length; i++) {
-                                        var url = this.issue_url;
-                                        var lastTwo = url.substr(url.length - 2);
-                                        console.log(lastTwo);
-                                        html2 += '<li><b>User </b>' + login + ' commented:' +
-                                            '<li>' + this.body + '</li>';
-                                    }
-                                });
-                        }
-                        $('#'+id).append(html2);
-                    }, // close success handler
-                });
-
-            });
-            html2 += '<li>' + '<textarea class="comment" rows="4" cols="50" placeholder="Comments? Leave them here! "></textarea>' + '</li>' +
-                '</li>';
-        });
-
-//TODO: milestone and comments plus input comment form
         $.ajax( {
             url : issuesURL,
             dataType : "jsonp",
@@ -66,11 +31,9 @@ $(document).ready(function() {
                     '<li>' + '<b>Issue Number: </b>' + this.number + '</li>' +
                     '<li>' + '<b>Status: </b>' + this.state + '</li>' +
                     '<li>' + '<b>Tags: </b>' + labels + '</li>' +
-                    '<li>' + '<b>Description: </b>' + this.body + '</li>' +
-                    '<li>' + '<b>Comments: </b>' + this.comments + '</li>' +
-                    '<div class="comments" id='+ this.number +'></div>'+
-                    '</ul>' +
-                    '</li>';
+                    '<li>' + '<b>Description: </b>' + this.body + '</li>'+
+					'</ul>' +
+					'</li>';
                 } );
                 $( '#result' ).append( html );
 
@@ -80,12 +43,8 @@ $(document).ready(function() {
             }
         });
 
-
-
 });
-    //data: JSON.stringify({
-      //  'body': body
-   //}),
+   
 
 
         vex.defaultOptions.className = 'vex-theme-flat-attack';                       //styling Vex Frame
